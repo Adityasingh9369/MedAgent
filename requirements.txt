@@ -1,0 +1,30 @@
+# Core
+python-dotenv==1.0.1
+pydantic==2.6.0
+pydantic-settings==2.2.0
+
+# Database
+sqlalchemy==2.0.28
+psycopg2-binary==2.9.9
+pgvector==0.3.0
+
+# ML / Embeddings
+sentence-transformers==2.7.0
+torch==2.2.0
+transformers==4.38.0
+
+# Data Processing
+requests==2.31.0
+pymupdf==1.24.0
+numpy==1.26.4
+pandas==2.2.0
+
+# Text Processing
+tiktoken==0.6.0
+
+# Caching
+redis==5.0.1
+
+# Logging & CLI
+loguru==0.7.2
+tqdm==4.66.2
