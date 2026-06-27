@@ -1,0 +1,82 @@
+from openai import OpenAI
+from loguru import logger
+from src.config import settings
+from src.agents.state import AgentState
+
+
+client = OpenAI(
+    base_url="https://openrouter.ai/api/v1",
+    api_key=settings.OPENROUTER_API_KEY,
+)
+
+# MODEL = "google/gemini-2.0-flash-exp:free"
+# MODEL = "meta-llama/llama-3.1-8b-instruct:free"
+# MODEL = "google/gemma-2-9b-it:free"
+MODEL = "openrouter/free"
+
+SYSTEM_PROMPT = """You are a clinical decision support AI assistant.
+Your job is to answer medical questions based ONLY on the provided research context.
+
+Rules:
+- Base your answer strictly on the provided context chunks
+- Cite sources by mentioning the document ID
+- If the context does not contain enough information, say so clearly
+- Be precise and clinical in your language
+- Structure your answer clearly with key points
+- Never make up information not present in the context
+"""
+
+
+def reasoning_agent(state: AgentState) -> AgentState:
+    """
+    Reasoning Agent — synthesizes retrieved chunks into a cited answer.
+    Uses Gemini via OpenRouter to generate a structured clinical response
+    grounded strictly in the retrieved context.
+    """
+    question = state["question"]
+    chunks = state["retrieved_chunks"]
+    entities = state["entities"]
+
+    logger.info("Reasoning Agent | generating answer from context...")
+
+    # Build context string from retrieved chunks
+    context = ""
+    citations = []
+    for i, chunk in enumerate(chunks, 1):
+        context += f"\n[Source {i} | {chunk['doc_id']} | score: {chunk['score']}]\n"
+        context += chunk["content"] + "\n"
+        citations.append(chunk["doc_id"])
+
+    # Build entity summary
+    entity_summary = ""
+    if entities.get("diseases"):
+        entity_summary += f"Identified conditions: {', '.join(entities['diseases'])}\n"
+    if entities.get("drugs"):
+        entity_summary += f"Identified drugs: {', '.join(entities['drugs'])}\n"
+    if entities.get("symptoms"):
+        entity_summary += f"Identified symptoms: {', '.join(entities['symptoms'])}\n"
+
+    user_prompt = f"""Clinical Question: {question}
+
+{entity_summary}
+
+Research Context:
+{context}
+
+Please provide a comprehensive clinical answer based strictly on the above context.
+Reference the source numbers when citing evidence.
+"""
+
+    response = client.chat.completions.create(
+        model=MODEL,
+        messages=[
+            {"role": "system", "content": SYSTEM_PROMPT},
+            {"role": "user", "content": user_prompt},
+        ],
+        temperature=0.1,
+    )
+
+    answer = response.choices[0].message.content
+    logger.info("Reasoning Agent | answer generated successfully")
+
+    return {**state, "answer": answer, "citations": citations}

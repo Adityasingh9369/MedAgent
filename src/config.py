@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     NCBI_API_KEY: str = Field(default="", env="NCBI_API_KEY")
     GEMINI_API_KEY: str = Field(default="", env="GEMINI_API_KEY")
     LANGSMITH_API_KEY: str = Field(default="", env="LANGSMITH_API_KEY")
+    OPENROUTER_API_KEY: str = Field(default="", env="OPENROUTER_API_KEY")
 
     # Embedding
     EMBEDDING_MODEL: str = Field(

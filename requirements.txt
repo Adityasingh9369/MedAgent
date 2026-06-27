@@ -28,3 +28,9 @@ redis==5.0.1
 # Logging & CLI
 loguru==0.7.2
 tqdm==4.66.2
+
+# Phase 2 - Agents
+langgraph==0.2.16
+langchain==0.3.0
+langchain-google-genai==2.0.0
+spacy==3.7.4
