@@ -13,6 +13,10 @@ class Settings(BaseSettings):
     LANGSMITH_API_KEY: str = Field(default="", env="LANGSMITH_API_KEY")
     OPENROUTER_API_KEY: str = Field(default="", env="OPENROUTER_API_KEY")
 
+    # LangSmith Tracing Config
+    LANGCHAIN_TRACING_V2: str = Field(default="true", env="LANGCHAIN_TRACING_V2")
+    LANGCHAIN_PROJECT: str = Field(default="clinicalagent", env="LANGCHAIN_PROJECT")
+    
     # Embedding
     EMBEDDING_MODEL: str = Field(
         default="NeuML/pubmedbert-base-embeddings",
