@@ -1,10 +1,17 @@
+import os
 from langgraph.graph import StateGraph, END
 from loguru import logger
+from src.config import settings
 from src.agents.state import AgentState
 from src.agents.retrieval_agent import retrieval_agent
 from src.agents.ner_agent import ner_agent
 from src.agents.reasoning_agent import reasoning_agent
 from src.agents.critique_agent import critique_agent
+
+# Set LangSmith env vars so every pipeline run is traced
+os.environ["LANGCHAIN_TRACING_V2"] = settings.LANGCHAIN_TRACING_V2
+os.environ["LANGCHAIN_API_KEY"] = settings.LANGSMITH_API_KEY
+os.environ["LANGCHAIN_PROJECT"] = settings.LANGCHAIN_PROJECT
 
 
 def build_pipeline() -> StateGraph:
@@ -35,15 +42,18 @@ def build_pipeline() -> StateGraph:
     return graph.compile()
 
 
-def run_pipeline(question: str) -> dict:
+def run_pipeline(question: str, session_id: str = None) -> dict:
     """
     Run the full multi-agent pipeline for a clinical question.
-    Returns the complete state including answer, citations,
-    critique, and confidence score.
+    All runs are traced in LangSmith automatically via env vars.
+    Optional session_id tags the trace for grouping runs.
     """
     logger.info("=" * 55)
     logger.info(f"PIPELINE START | {question[:60]}...")
     logger.info("=" * 55)
+
+    if session_id:
+        os.environ["LANGCHAIN_SESSION"] = session_id
 
     pipeline = build_pipeline()
 
