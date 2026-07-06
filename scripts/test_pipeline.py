@@ -16,7 +16,8 @@ if __name__ == "__main__":
     questions = [
         "What are the treatment options for heart failure with reduced ejection fraction?",
         "What antibiotics are recommended for community acquired pneumonia?",
-    ]
+        "What is the prognosis for a 72-year-old male with heart failure and renal disease after a 7-day hospital stay?",
+]
 
     for q in questions:
         test(q)

@@ -29,6 +29,7 @@ models/
 # MLflow
 mlruns/
 mlartifacts/
+data/mimic/
 
 # IDE
 .vscode/
