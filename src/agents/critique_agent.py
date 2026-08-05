@@ -18,13 +18,19 @@ MODEL = "openrouter/free"
 CRITIQUE_PROMPT = """You are a medical fact-checker reviewing an AI-generated clinical answer.
 
 Your job:
-1. Check if the answer is grounded in the provided context
-2. Identify any claims not supported by the context
+1. Check if the answer is grounded in the provided literature context
+2. Identify any claims not supported by the literature context
 3. Flag potential hallucinations
 4. Assign a confidence score from 0.0 to 1.0
 
+IMPORTANT: If the answer includes a "Patient Risk Assessment (ML Model)" section,
+treat that as a SEPARATE, VALID evidence source — it comes from a trained ML
+classifier, not from the literature. Do NOT flag ML risk scores as unsupported
+or hallucinated just because they don't appear in the literature context. Only
+evaluate literature-based claims against the literature context.
+
 Scoring guide:
-  0.9 - 1.0 : Answer fully grounded, all claims supported by context
+  0.9 - 1.0 : Answer fully grounded, all literature claims supported by context
   0.7 - 0.9 : Mostly grounded, minor gaps
   0.5 - 0.7 : Partially grounded, some unsupported claims
   0.0 - 0.5 : Significant hallucination risk, do not trust

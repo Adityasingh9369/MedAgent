@@ -34,3 +34,6 @@ langgraph==0.2.16
 langchain==0.3.0
 langchain-google-genai==2.0.0
 spacy==3.7.4
+
+# uvicorn for Phase 6
+uvicorn[standard]==0.30.6
