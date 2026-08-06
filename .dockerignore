@@ -1,0 +1,14 @@
+.venv/
+.env
+__pycache__/
+*.pyc
+logs/
+data/
+mlruns/
+mlartifacts/
+models/
+notebooks/
+.git/
+.gitignore
+*.md
+node_modules/
