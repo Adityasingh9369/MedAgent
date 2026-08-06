@@ -29,5 +29,25 @@ services:
       timeout: 5s
       retries: 5
 
+  api:
+    build: .
+    container_name: clinicalagent_api
+    env_file:
+      - .env
+    environment:
+      # Override host-based URLs from .env so the container reaches
+      # postgres/redis by their Docker Compose service name, not localhost
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/clinicalagent
+      REDIS_URL: redis://redis:6379
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./models:/app/models
+
 volumes:
   postgres_data:
