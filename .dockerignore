@@ -6,7 +6,9 @@ logs/
 data/
 mlruns/
 mlartifacts/
-models/
+# models/
+models/*
+!models/readmission_model.json
 notebooks/
 .git/
 .gitignore
