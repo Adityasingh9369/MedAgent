@@ -9,6 +9,15 @@ on:
 jobs:
   lint-and-check:
     runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/clinicalagent"
+      REDIS_URL: "redis://localhost:6379"
+      OPENROUTER_API_KEY: "dummy-key-for-ci"
+      NCBI_API_KEY: "dummy-key-for-ci"
+      GEMINI_API_KEY: "dummy-key-for-ci"
+      LANGSMITH_API_KEY: "dummy-key-for-ci"
+      LANGCHAIN_TRACING_V2: "false"
+      LANGCHAIN_PROJECT: "clinicalagent-ci"
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
