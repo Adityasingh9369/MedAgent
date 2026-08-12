@@ -82,9 +82,9 @@ Data ingestion (`main.py`), evaluation (`scripts/run_evaluation.py`), and risk m
 
 ## Deployment
 
-**Live attempt:** deployed to Render as a Docker web service, wired to GitHub Actions CI (see below).
+**Live attempt:** [clinicalagent.onrender.com](https://clinicalagent.onrender.com) — deployed to Render as a Docker web service, wired to GitHub Actions CI (see below). **In practice, requests to this URL load indefinitely and do not reliably resolve** — consistent with the RAM constraint below, though Render's free tier doesn't surface a specific OOM error to the client, so this is the observable symptom, not a confirmed error message.
 
-**Known constraint — free-tier RAM:** Render's free tier caps a service at 512MB RAM. This stack loads PyTorch, sentence-transformers (PubMedBERT), spaCy, and XGBoost simultaneously inside one process. Measured actual runtime memory via `docker stats` on the fully running container: **~945MB** — well above the free-tier ceiling, causing the deployed instance to crash-loop on Render's free plan.
+**Known constraint — free-tier RAM:** Render's free tier caps a service at 512MB RAM. This stack loads PyTorch, sentence-transformers (PubMedBERT), spaCy, and XGBoost simultaneously inside one process. Measured actual runtime memory via `docker stats` on the fully running container locally: **~945MB** — well above the free-tier ceiling, which is the most likely explanation for the deployed instance failing to serve requests reliably.
 
 This was diagnosed, not guessed at:
 1. Confirmed the failure was a runtime OOM, not a build failure — the image built and ran cleanly locally and via `docker run`/`docker compose` against real Postgres/Redis.
