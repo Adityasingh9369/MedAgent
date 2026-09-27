@@ -1,8 +1,8 @@
-# ClinicalAgent
+# MedAgent
 
 A production-grade multi-agent medical intelligence system that answers complex clinical questions using retrieved biomedical literature, medical NER, LLM reasoning grounded strictly in retrieved context, and automated hallucination detection with confidence scoring.
 
-Built by **Md Ashhar Iqbal** — B.Tech, IIT Hyderabad.
+Built by **Aditya Singh** — B.Tech, IIT Mandi.
 
 This is not a chatbot wrapper. It's an agentic RAG system with evaluation, built to production standards: 10,000+ indexable papers, RAGAS-scored responses, a persistent vector store, LangSmith-traced agent decisions, and a fully containerized deployment.
 
@@ -66,7 +66,7 @@ The core differentiator: the system doesn't just answer — the Critique Agent f
 The fully containerized stack (Postgres + Redis + API) is the verified, reliable way to run this system end-to-end.
 
 ```bash
-git clone https://github.com/mdashhariqbal/clinicalagent.git
+git clone https://github.com/Adityasingh9369/MedAgent.git
 cd clinicalagent
 cp .env.example .env   # fill in your API keys (OpenRouter, NCBI, LangSmith)
 
