@@ -3,7 +3,7 @@ import requests
 import plotly.graph_objects as go
 
 st.set_page_config(
-    page_title="ClinicalAgent Dashboard",
+    page_title="MedAgent Dashboard",
     page_icon="🩺",
     layout="wide",
 )
@@ -25,7 +25,7 @@ PHASE5_COMPARISON = {
     "Context Recall": {"Base": 0.33, "Fine-tuned v2": 0.33},
 }
 
-st.title("🩺 ClinicalAgent Dashboard")
+st.title("🩺 MedAgent Dashboard")
 st.caption("Agentic RAG system for clinical question answering — evaluation results & live query interface")
 
 tab1, tab2, tab3 = st.tabs(["📊 Evaluation Scores", "🔍 Live Query", "ℹ️ About"])
